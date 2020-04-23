@@ -1,11 +1,14 @@
 ﻿using System;
+using Microsoft.VisualBasic;
 using System.Data.OleDb;
+using VenditaVeicoliDllProject;
 
 namespace ConsoleApp_Project
 {
     class Program
     {
         public static string connStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=CarShop.accdb";
+        //SerializableBindingList<Veicolo> bindingListVeicoli;
 
         static void Main(string[] args)
         {
@@ -13,7 +16,7 @@ namespace ConsoleApp_Project
             do
             {
                 menu();
-                Console.Write("DIGITA LA TUA SCELTA ");
+                Console.Write(" DIGITA LA TUA SCELTA: ");
                 scelta = Console.ReadKey().KeyChar;
                 switch (scelta)
                 {
@@ -21,7 +24,9 @@ namespace ConsoleApp_Project
                         CreateTableCars();
                         break;
                     case '2':
-                        AddNewCar("Bmw", "332211");
+                        string marca = Interaction.InputBox("Inserisci la marca del veicolo"),
+                               prezzo = Interaction.InputBox("Inserisci il prezzo del veicolo");
+                        AddNewCar(marca, prezzo);
                         break;
                     case '3':
                         ListCars();
@@ -34,7 +39,20 @@ namespace ConsoleApp_Project
 
         private static void ListCars()
         {
-            throw new NotImplementedException();
+            if (connStr != null)
+            {
+                OleDbConnection con = new OleDbConnection(connStr);
+                using (con)
+                {
+                    con.Open();
+
+                    OleDbCommand cmd = new OleDbCommand();
+                    cmd.Connection = con;
+
+                    Console.WriteLine("\n List created!!");
+                    System.Threading.Thread.Sleep(3000);
+                }
+            }
         }
 
         private static void AddNewCar(string carName, string carPrice)
@@ -57,6 +75,9 @@ namespace ConsoleApp_Project
                     cmd.Prepare();
 
                     cmd.ExecuteNonQuery();
+
+                    Console.WriteLine("\n Car added!!");
+                    System.Threading.Thread.Sleep(3000);
                 }
             }
         }
@@ -68,6 +89,8 @@ namespace ConsoleApp_Project
                 OleDbConnection con = new OleDbConnection(connStr);
                 using (con)
                 {
+                    con.Open();
+
                     OleDbCommand cmd = new OleDbCommand();
                     cmd.Connection = con;
 
@@ -112,12 +135,13 @@ namespace ConsoleApp_Project
         {
             Console.Clear();
             Console.WriteLine("*** CAR SHOP - DB MANAGEMENT ***\n");
-            Console.WriteLine("1 - CREATE TABLE: Cars");
-            Console.WriteLine("2 - ADD NEW ITEM: Cars");
-            Console.WriteLine("3 - LIST: Cars");
-            Console.WriteLine("4 - ...");
-            Console.WriteLine("5 - ...");
-            Console.WriteLine("\nX - FINE LAVORO\n\n");
+            Console.WriteLine(" Menu:");
+            Console.WriteLine(" 1 - CREATE TABLE: Cars");
+            Console.WriteLine(" 2 - ADD NEW ITEM: Cars");
+            Console.WriteLine(" 3 - LIST: Cars");
+            Console.WriteLine(" 4 - ...");
+            Console.WriteLine(" 5 - ...");
+            Console.WriteLine("\n X - FINE LAVORO\n\n");
         }
     }
 }

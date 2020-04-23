@@ -1,0 +1,31 @@
+﻿body {
+    background-image: url("img/sfondo.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+    padding: 30px;
+	color: white;
+}
+
+h2, h5 {
+    text-align: center;
+}
+
+img {
+    width: 340px;
+    height: 280px;
+}
+
+.veicolo {
+    display: inline-block;
+    margin-left: 30px;
+}
+
+.titolo {
+    font-size: 14pt;
+}
+
+.didascalia {
+    font-size: 12pt;
+    border: 2px solid black;
+    padding: 5px;
+}

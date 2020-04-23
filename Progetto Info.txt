@@ -1,0 +1,8 @@
+Fare un gestione vendita
+Salone  	Vendita 	Auto-Moto-Camion
+   	Veicoli   	Nuovi  e  Usati
+
+Soluzione multiprogetto --> DLL -> Dynamic Linked Library
+			--> Console -> Attivita Bache
+			--> MultiForm -> Gestionale e Office Automation
+			--> Web -> Presentazione(forse)

@@ -1,4 +1,5 @@
 # Car Shop Solution
+#### Autore: Chopra Deepak
 
 ## Descrizione
 >Qui è caricata la soluzione realizzata sulla vendita dei veicoli che comprende più progetti al suo interno 
@@ -12,5 +13,3 @@
 
 ## Team sviluppatori:
 > 4B Info - Vallauri Fossano Italy
-
-#### Autore: Chopra Deepak

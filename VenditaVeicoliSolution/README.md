@@ -1,4 +1,5 @@
 # Projects
+#### Autore: Chopra Deepak
 
 ## Descrizione
 >Ogni progetto svolge una funzione specifica ed mira ad essere utile per l'intera soluzione. Abbiamo un progetto console che si occupa della conessione al database, un windows form per la GUI e un progetto DLL che comprende le librerie con le varie funzioni
@@ -12,5 +13,3 @@
 
 ## Team sviluppatori:
 > 4B Info - Vallauri Fossano Italy
-
-#### Autore: Chopra Deepak

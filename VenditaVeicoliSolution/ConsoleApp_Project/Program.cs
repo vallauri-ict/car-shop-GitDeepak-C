@@ -24,12 +24,26 @@ namespace ConsoleApp_Project
                         CreateTableCars();
                         break;
                     case '2':
-                        string marca = Interaction.InputBox("Inserisci la marca del veicolo"),
-                               prezzo = Interaction.InputBox("Inserisci il prezzo del veicolo");
-                        AddNewCar(marca, prezzo);
+                            string marca = Interaction.InputBox("Inserisci la marca del veicolo"),
+                                   prezzo = Interaction.InputBox("Inserisci il prezzo del veicolo");
+                            AddNewCar(marca, prezzo);
                         break;
                     case '3':
                         ListCars();
+                        break;
+                    case '4':
+                        ListCars();
+                        break;
+                    case '5':
+                        ListCars();
+                        break;
+                    case '6':
+                        ListCars();
+                        break;
+                    case '7':
+                            string webPath = (@"www\index.html");
+                            //Utils.createHtml(bindingListVeicoli, webPath);
+                            System.Diagnostics.Process.Start(webPath);
                         break;
                     default:
                         break;
@@ -138,9 +152,11 @@ namespace ConsoleApp_Project
             Console.WriteLine(" Menu:");
             Console.WriteLine(" 1 - CREATE TABLE: Cars");
             Console.WriteLine(" 2 - ADD NEW ITEM: Cars");
-            Console.WriteLine(" 3 - LIST: Cars");
-            Console.WriteLine(" 4 - ...");
-            Console.WriteLine(" 5 - ...");
+            Console.WriteLine(" 3 - MODIFY ITEM: Cars");
+            Console.WriteLine(" 4 - SHOW LIST: Cars");
+            Console.WriteLine(" 5 - EXPORT DB IN A .JSON FILE");
+            Console.WriteLine(" 6 - EXPORT DB IN A .XML FILE");
+            Console.WriteLine(" 7 - EXPORT DB IN A .HTML FILE");
             Console.WriteLine("\n X - FINE LAVORO\n\n");
         }
     }

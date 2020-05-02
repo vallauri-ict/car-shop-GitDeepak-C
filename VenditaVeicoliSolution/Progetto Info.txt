@@ -6,3 +6,7 @@ Soluzione multiprogetto --> DLL -> Dynamic Linked Library
 			--> Console -> Attivita Bache
 			--> MultiForm -> Gestionale e Office Automation
 			--> Web -> Presentazione(forse)
+
+Cose da aggiungere al progetto:
+-Gestione tutto 
+-Data adapter per tipizzare i dati

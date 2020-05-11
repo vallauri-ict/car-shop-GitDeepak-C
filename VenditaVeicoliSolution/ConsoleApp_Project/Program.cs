@@ -2,6 +2,7 @@
 using Microsoft.VisualBasic;
 using System.Data.OleDb;
 using VenditaVeicoliDllProject;
+using System.Runtime.InteropServices;
 
 namespace ConsoleApp_Project
 {
@@ -28,7 +29,7 @@ namespace ConsoleApp_Project
                                              "Honda|CBR|Arancione|125|11|12/02/2019|False|True|0|Honda" };
         #endregion
 
-        SerializableBindingList<Veicolo> bindingListVeicoli = new SerializableBindingList<Veicolo>();
+        static SerializableBindingList<Veicolo> bindingListVeicoli = new SerializableBindingList<Veicolo>();
 
         static void Main(string[] args)
         {
@@ -82,12 +83,22 @@ namespace ConsoleApp_Project
                         }
                         break;
                     case '3':
-                        //modifyItem();                        
-                        ListCars();
+                        string dbName = Interaction.InputBox("Inserisci il nome del DB sui cui vuoi lavorare"),
+                               id = Interaction.InputBox("Inserisci l'id del elemento da modificare");
+                        marca = Interaction.InputBox("Inserisci la marca del veicolo da modificare");
+                        modello = Interaction.InputBox("Inserisci il modello del veicolo da modificare");
+                        str = Interaction.InputBox("Inserisci il campo che vuoi modificare");
+                        string newVal = Interaction.InputBox("Inserisci il nuovo valore del campo");
+
+                        modifyItem(id, marca, modello, str, newVal, dbName);
+
                         break;
                     case '4':
-                        //deleteItem();
-                        ListCars();
+                        dbName = Interaction.InputBox("Inserisci il nome del DB sui cui vuoi lavorare");
+                        id = Interaction.InputBox("Inserisci l'id del elemento da eliminare");
+                        
+                        deleteItem(dbName, id);
+
                         break;
                     case '5':
                         ListCars();
@@ -111,6 +122,69 @@ namespace ConsoleApp_Project
             } while (scelta != 'X' && scelta != 'x');
         }
 
+        private static void deleteItem(string dbName, string id)
+        {
+            if (connStr != null)
+            {
+                OleDbConnection con = new OleDbConnection(connStr);
+                using (con)
+                {
+                    con.Open();
+
+                    OleDbCommand cmd = new OleDbCommand();
+                    cmd.Connection = con;
+
+                    try
+                    {
+                        cmd.CommandText = "DELETE FROM " + dbName + " WHERE id = " + id + "";
+
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (OleDbException exc)
+                    {
+                        Console.WriteLine("\n " + exc.Message);
+                        System.Threading.Thread.Sleep(5000);
+                        return;
+                    }
+
+                    Console.WriteLine("\n Item deleted!!");
+                    System.Threading.Thread.Sleep(1500);
+                }
+            }
+        }
+
+        private static void modifyItem(string id, string marca, string modello, string str, string newVal, string dbName)
+        {
+            if (connStr != null)
+            {
+                OleDbConnection con = new OleDbConnection(connStr);
+                using (con)
+                {
+                    con.Open();
+
+                    OleDbCommand cmd = new OleDbCommand();
+                    cmd.Connection = con;
+
+                    try
+                    {
+                        cmd.CommandText = "UPDATE " + dbName + " " +
+                                   "SET " + str + " = " + newVal + " WHERE id = " + id + " and marca = '" + marca + "' and modello = '" + modello + "'";
+
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (OleDbException exc)
+                    {
+                        Console.WriteLine("\n " + exc.Message);
+                        System.Threading.Thread.Sleep(5000);
+                        return;
+                    }
+
+                    Console.WriteLine("\n Item modified!!");
+                    System.Threading.Thread.Sleep(1500);
+                }
+            }
+        }
+
         private static void ListCars()
         {
             if (connStr != null)
@@ -123,27 +197,30 @@ namespace ConsoleApp_Project
                     OleDbCommand cmd = new OleDbCommand();
                     cmd.Connection = con;
 
+                    try
+                    {
+                        System.Data.DataSet mSet = new System.Data.DataSet();
+                        OleDbDataAdapter mAdapter = new OleDbDataAdapter(cmd);
+                        mAdapter.Fill(mSet);
+                    }
+                    catch (OleDbException exc)
+                    {
+                        Console.WriteLine("\n " + exc.Message);
+                        System.Threading.Thread.Sleep(4000);
+                        return;
+                    }
+
                     Console.WriteLine("\n List created!!");
-                    System.Threading.Thread.Sleep(3000);
+                    System.Threading.Thread.Sleep(1500);
                 }
             }
         }
 
         private static void showList()
         {
-            if (connStr != null)
+            for (int i = 0; i < bindingListVeicoli.Count; i++)
             {
-                OleDbConnection con = new OleDbConnection(connStr);
-                using (con)
-                {
-                    con.Open();
-
-                    OleDbCommand cmd = new OleDbCommand();
-                    cmd.Connection = con;
-
-                    Console.WriteLine("\n List created!!");
-                    System.Threading.Thread.Sleep(3000);
-                }
+                Console.WriteLine(" *" + bindingListVeicoli[i].Marca + " | " + bindingListVeicoli[i].Modello + " | " + bindingListVeicoli[i].Colore + "*");
             }
         }
 
@@ -215,8 +292,8 @@ namespace ConsoleApp_Project
                     }
                     catch (OleDbException exc)
                     {
-                        Console.WriteLine("\n" + exc.Message);
-                        System.Threading.Thread.Sleep(3000);
+                        Console.WriteLine("\n " + exc.Message);
+                        System.Threading.Thread.Sleep(2000);
                         return;
                     }
 
@@ -226,7 +303,7 @@ namespace ConsoleApp_Project
                     }
 
                     Console.WriteLine("\n\n Cars table created!!");
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(200);
                 }
             }
         }
@@ -265,8 +342,8 @@ namespace ConsoleApp_Project
                     }
                     catch (OleDbException exc)
                     {
-                        Console.WriteLine("\n" + exc.Message);
-                        System.Threading.Thread.Sleep(3000);
+                        Console.WriteLine("\n " + exc.Message);
+                        System.Threading.Thread.Sleep(2000);
                         return;
                     }
 

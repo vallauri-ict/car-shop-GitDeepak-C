@@ -51,11 +51,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CarShop.accdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\VenditaVeicoliDllProject\VenditaVeicoliDllProject.csproj">
       <Project>{9E000298-3817-4220-9FCB-3DD3034E45BA}</Project>
       <Name>VenditaVeicoliDllProject</Name>

@@ -73,7 +73,7 @@ namespace VenditaVeicoliDllProject
             File.WriteAllText(pathName, json);
         }
 
-        public static void createHtml(SerializableBindingList<Veicolo> lista, string pathName, string skeletonPathName = @".\www\index-skeleton.html")
+        public static void createHtml(SerializableBindingList<Veicolo> lista, string pathName, string skeletonPathName = @"E:\Triennio\QUARTA_SUP\Informatica\Progetti\VenditaVeicoliSolution\fileStorage/www/index-skeleton.html")
         {
             string html = File.ReadAllText(skeletonPathName);
             html = html.Replace("{{head-title}}", "ALBUM VEICOLI");

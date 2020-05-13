@@ -3,36 +3,23 @@ using Microsoft.VisualBasic;
 using System.Data.OleDb;
 using VenditaVeicoliDllProject;
 using System.Runtime.InteropServices;
+using System.Data;
+using System.IO;
 
 namespace ConsoleApp_Project
 {
     class Program
     {
-        public static string connStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=CarShop.accdb";
-
+        public static string connStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=";
+        public static string path = @"E:\Triennio\QUARTA_SUP\Informatica\Progetti\VenditaVeicoliSolution\fileStorage/";
         static Random rnd = new Random();
-
-        #region datiProva
-        public static string[] autoProva = new string[] 
-                                           { "BMW|M4|Giallo|3000|370|12/02/2002|True|False|70000|7",
-                                             "Audi|A1|Blu|3000|120|12/02/2012|True|False|70000|8",
-                                             "Ford|Focus|Grigio Metallico|1500|70|12/02/2003|True|False|70000|5",
-                                             "Opel|Corsa|Bianca|1200|75|12/02/2002|True|False|120000|3",
-                                             "Hyundai|Tucson|Nera|1800|110|12/02/2016|True|False|80000|4",
-                                             "Volvo|XC90|Azzura|2000|150|12/02/2019|False|True|0|10" };
-        public static string[] motoProva = new string[]
-                                           { "Harley Davinson|Iron 883|Grigio Scuro|800|20|12/02/2020|False|True|0|Harley Dainson",
-                                             "BMW|F 900 R|Rosso|900|25|12/08/2019|True|False|1000|Bmw",
-                                             "Kawasaki|Ninja 250 R|Verde|250|22|12/02/2003|True|False|70000|Kawasaki",
-                                             "Yamaha|YZF R125|Blu|125|11|12/02/2018|True|False|120|Yamaha",
-                                             "Aprilia|RS 125|Bianca|125|12|12/02/2017|True|False|8000|Aprilia",
-                                             "Honda|CBR|Arancione|125|11|12/02/2019|False|True|0|Honda" };
-        #endregion
 
         static SerializableBindingList<Veicolo> bindingListVeicoli = new SerializableBindingList<Veicolo>();
 
         static void Main(string[] args)
         {
+            connStr += path + "CarShop.accdb";
+
             char scelta;
             do
             {
@@ -42,8 +29,7 @@ namespace ConsoleApp_Project
                 switch (scelta)
                 {
                     case '1':
-                        CreateTableAuto();
-                        CreateTableMoto();
+                        CreateTableVeicoli();
                         break;
                     case '2':
                         #region inizializzazione campi
@@ -69,51 +55,46 @@ namespace ConsoleApp_Project
                         }
                         #endregion
                         string parameters = marca + "|" + modello + "|" + colore + "|" + cilindrata + "|" + potenzaKw + "|" + dataImmatricolazione + "|" + isUsato + "|" + isKm0 + "|" + kmPercorsi + "|" + str;
-                        if (int.TryParse(str, out _))
-                        {
-                            AddNewItem(parameters, "numAirbag", "Auto");
-                            Console.WriteLine("\n Item added to Auto!!");
-                            System.Threading.Thread.Sleep(2000);
-                        }
-                        else
-                        {
-                            AddNewItem(parameters, "marcaSella", "Moto");
-                            Console.WriteLine("\n Item added to Moto!!");
-                            System.Threading.Thread.Sleep(2000);
-                        }
+
+                        AddNewItem(parameters);
+                        Console.WriteLine("\n Item added to Auto!!");
+                        System.Threading.Thread.Sleep(2000);
+
                         break;
                     case '3':
-                        string dbName = Interaction.InputBox("Inserisci il nome del DB sui cui vuoi lavorare"),
-                               id = Interaction.InputBox("Inserisci l'id del elemento da modificare");
+                        string id = Interaction.InputBox("Inserisci l'id del elemento da modificare");
                         marca = Interaction.InputBox("Inserisci la marca del veicolo da modificare");
-                        modello = Interaction.InputBox("Inserisci il modello del veicolo da modificare");
                         str = Interaction.InputBox("Inserisci il campo che vuoi modificare");
                         string newVal = Interaction.InputBox("Inserisci il nuovo valore del campo");
 
-                        modifyItem(id, marca, modello, str, newVal, dbName);
+                        modifyItem(id, marca, str, newVal);
 
                         break;
                     case '4':
-                        dbName = Interaction.InputBox("Inserisci il nome del DB sui cui vuoi lavorare");
                         id = Interaction.InputBox("Inserisci l'id del elemento da eliminare");
                         
-                        deleteItem(dbName, id);
+                        deleteItem(id);
 
                         break;
                     case '5':
+                        bindingListVeicoli.Clear();
                         ListCars();
+                        showList();
                         break;
                     case '6':
-                        //exportJson();
-                        ListCars();
+                        if (bindingListVeicoli.Count == 0)
+                            ListCars();
+                        Console.WriteLine("\n There are " + bindingListVeicoli.Count + " vehicles");
+                        Console.ReadKey();
                         break;
                     case '7':
-                        //exportXml();
-                        ListCars();
+                        dropTable();
                         break;
                     case '8':
-                        string webPath = (@"www\index.html");
-                        //Utils.createHtml(bindingListVeicoli, webPath);
+                        if (bindingListVeicoli.Count == 0)
+                            ListCars();
+                        string webPath = (@"E:\Triennio\QUARTA_SUP\Informatica\Progetti\VenditaVeicoliSolution\fileStorage/www/index.html");
+                        Utils.createHtml(bindingListVeicoli, webPath);
                         System.Diagnostics.Process.Start(webPath);
                         break;
                     default:
@@ -122,7 +103,7 @@ namespace ConsoleApp_Project
             } while (scelta != 'X' && scelta != 'x');
         }
 
-        private static void deleteItem(string dbName, string id)
+        private static void dropTable()
         {
             if (connStr != null)
             {
@@ -136,7 +117,37 @@ namespace ConsoleApp_Project
 
                     try
                     {
-                        cmd.CommandText = "DELETE FROM " + dbName + " WHERE id = " + id + "";
+                        cmd.CommandText = "DROP TABLE Veicoli";
+                        cmd.ExecuteNonQuery();
+
+                        Console.WriteLine("\n Veichles table dropped!!");
+                        System.Threading.Thread.Sleep(2500);
+                    }
+                    catch (OleDbException exc)
+                    {
+                        Console.WriteLine("\n " + exc.Message);
+                        System.Threading.Thread.Sleep(4000);
+                        return;
+                    }
+                }
+            }
+        }
+
+        private static void deleteItem(string id)
+        {
+            if (connStr != null)
+            {
+                OleDbConnection con = new OleDbConnection(connStr);
+                using (con)
+                {
+                    con.Open();
+
+                    OleDbCommand cmd = new OleDbCommand();
+                    cmd.Connection = con;
+
+                    try
+                    {
+                        cmd.CommandText = "DELETE FROM Veicoli WHERE id = " + id + "";
 
                         cmd.ExecuteNonQuery();
                     }
@@ -153,7 +164,7 @@ namespace ConsoleApp_Project
             }
         }
 
-        private static void modifyItem(string id, string marca, string modello, string str, string newVal, string dbName)
+        private static void modifyItem(string id, string marca, string str, string newVal)
         {
             if (connStr != null)
             {
@@ -167,9 +178,12 @@ namespace ConsoleApp_Project
 
                     try
                     {
-                        cmd.CommandText = "UPDATE " + dbName + " " +
-                                   "SET " + str + " = " + newVal + " WHERE id = " + id + " and marca = '" + marca + "' and modello = '" + modello + "'";
+                        string query = "UPDATE Veicoli " +
+                                   "SET " + str + " = @newVal WHERE id = " + id + " and marca = '" + marca + "'";
 
+                        cmd.Parameters.AddWithValue("@newVal", newVal);
+
+                        cmd.CommandText = query;
                         cmd.ExecuteNonQuery();
                     }
                     catch (OleDbException exc)
@@ -199,9 +213,27 @@ namespace ConsoleApp_Project
 
                     try
                     {
-                        System.Data.DataSet mSet = new System.Data.DataSet();
-                        OleDbDataAdapter mAdapter = new OleDbDataAdapter(cmd);
-                        mAdapter.Fill(mSet);
+                        OleDbDataAdapter adapter = new OleDbDataAdapter("SELECT * FROM Veicoli", con);
+                        DataTable table = new DataTable();
+                        adapter.Fill(table);
+
+                        foreach (DataRow item in table.Rows)
+                        {
+                            if (int.TryParse(item.ItemArray[10].ToString(), out _))
+                            {
+                                Auto a = new Auto(item.ItemArray[1].ToString(), item.ItemArray[2].ToString(), item.ItemArray[3].ToString(), Convert.ToInt32(item.ItemArray[4]), Convert.ToDouble(item.ItemArray[5]),
+                                                 Convert.ToDateTime(item.ItemArray[6]), Convert.ToBoolean(item.ItemArray[7]), Convert.ToBoolean(item.ItemArray[8]), Convert.ToInt32(item.ItemArray[9]),
+                                                 Convert.ToInt32(item.ItemArray[10]));
+                                bindingListVeicoli.Add(a);
+                            }
+                            else
+                            {
+                                Moto m = new Moto(item.ItemArray[1].ToString(), item.ItemArray[2].ToString(), item.ItemArray[3].ToString(), Convert.ToInt32(item.ItemArray[4]), Convert.ToDouble(item.ItemArray[5]),
+                                                 Convert.ToDateTime(item.ItemArray[6]), Convert.ToBoolean(item.ItemArray[7]), Convert.ToBoolean(item.ItemArray[8]), Convert.ToInt32(item.ItemArray[9]),
+                                                 item.ItemArray[10].ToString());
+                                bindingListVeicoli.Add(m);
+                            }
+                        }
                     }
                     catch (OleDbException exc)
                     {
@@ -209,22 +241,21 @@ namespace ConsoleApp_Project
                         System.Threading.Thread.Sleep(4000);
                         return;
                     }
-
-                    Console.WriteLine("\n List created!!");
-                    System.Threading.Thread.Sleep(1500);
                 }
             }
         }
 
         private static void showList()
         {
+            Console.WriteLine("\n");
             for (int i = 0; i < bindingListVeicoli.Count; i++)
             {
                 Console.WriteLine(" *" + bindingListVeicoli[i].Marca + " | " + bindingListVeicoli[i].Modello + " | " + bindingListVeicoli[i].Colore + "*");
             }
+            Console.ReadKey();
         }
 
-        private static void AddNewItem(string dati, string str, string dbName)
+        private static void AddNewItem(string dati)
         {
             if (connStr != null)
             {
@@ -236,8 +267,8 @@ namespace ConsoleApp_Project
                     OleDbCommand cmd = new OleDbCommand();
                     cmd.Connection = con;
 
-                    string query = "INSERT INTO " + dbName + "(marca, modello, colore, cilindrata, potenzaKw, dataImmatricolazione, isUsato, isKm0, kmPercorsi," + str + ") " +
-                                   "VALUES(@marca, @modello, @colore, @cilindrata, @potenzaKw, @dataImmatricolazione, @isUsato, @isKm0, @kmPercorsi, @" + str + ")";
+                    string query = "INSERT INTO Veicoli(marca, modello, colore, cilindrata, potenzaKw, dataImmatricolazione, isUsato, isKm0, kmPercorsi, cmpSpec) " +
+                                   "VALUES(@marca, @modello, @colore, @cilindrata, @potenzaKw, @dataImmatricolazione, @isUsato, @isKm0, @kmPercorsi, @cmpSpec)";
                     cmd.CommandText = query;
 
                     string[] vet = dati.Split('|');
@@ -250,7 +281,7 @@ namespace ConsoleApp_Project
                     cmd.Parameters.Add("@isUsato", OleDbType.Boolean).Value = vet[6];
                     cmd.Parameters.Add("@isKm0", OleDbType.Boolean).Value = vet[7];
                     cmd.Parameters.Add("@kmPercorsi", OleDbType.Integer).Value = vet[8];
-                    cmd.Parameters.Add("@" + str + "", OleDbType.VarChar, 255).Value = vet[9];
+                    cmd.Parameters.Add("@cmpSpec", OleDbType.VarChar, 255).Value = vet[9];
                     cmd.Prepare();
 
                     cmd.ExecuteNonQuery();
@@ -258,7 +289,7 @@ namespace ConsoleApp_Project
             }
         }
 
-        private static void CreateTableAuto()
+        private static void CreateTableVeicoli()
         {
             if (connStr != null)
             {
@@ -270,12 +301,13 @@ namespace ConsoleApp_Project
                     OleDbCommand cmd = new OleDbCommand();
                     cmd.Connection = con;
 
-                    /*cmd.CommandText = "DROP TABLE IF EXITS cars";
-                    cmd.ExecuteNonQuery();*/
+                    string[] datiProva = new string[20];
+                    caricaDatiProva(datiProva);
 
                     try
                     {
-                        cmd.CommandText = @"CREATE TABLE Auto(
+
+                        cmd.CommandText = @"CREATE TABLE Veicoli(
                                         id int identity(1, 1) UNIQUE NOT NULL PRIMARY KEY,
                                         marca VARCHAR(255) NOT NULL,
                                         modello VARCHAR(255) NOT NULL,
@@ -286,7 +318,7 @@ namespace ConsoleApp_Project
                                         isUsato BIT,
                                         isKm0 BIT,
                                         kmPercorsi INT NOT NULL,
-                                        numAirbag INT
+                                        cmpSpec VARCHAR(16)
                                       )";
                         cmd.ExecuteNonQuery();
                     }
@@ -297,65 +329,30 @@ namespace ConsoleApp_Project
                         return;
                     }
 
-                    for (int i = 0; i < autoProva.Length; i++)
+                    for (int i = 0; datiProva[i] != null; i++)
                     {
-                        AddNewItem(autoProva[i], "numAirbag", "Auto");
+                        AddNewItem(datiProva[i]);
                     }
 
-                    Console.WriteLine("\n\n Cars table created!!");
-                    System.Threading.Thread.Sleep(200);
+                    Console.WriteLine("\n Vehicles table created!!");
+                    System.Threading.Thread.Sleep(1000);
                 }
             }
         }
 
-        private static void CreateTableMoto()
+        private static void caricaDatiProva(string[] datiProva)
         {
-            if (connStr != null)
+            StreamReader sr = new StreamReader(path + "datiProva.txt");
+            string s = "";
+            int len = -1;
+
+            while(sr.Peek() != -1)
             {
-                OleDbConnection con = new OleDbConnection(connStr);
-                using (con)
-                {
-                    con.Open();
-
-                    OleDbCommand cmd = new OleDbCommand();
-                    cmd.Connection = con;
-
-                    /*cmd.CommandText = "DROP TABLE IF EXITS cars";
-                    cmd.ExecuteNonQuery();*/
-
-                    try
-                    {
-                        cmd.CommandText = @"CREATE TABLE Moto(
-                                        id int identity(1, 1) UNIQUE NOT NULL PRIMARY KEY,
-                                        marca VARCHAR(255) NOT NULL,
-                                        modello VARCHAR(255) NOT NULL,
-                                        colore VARCHAR(16) NOT NULL,
-                                        cilindrata INT NOT NULL,
-                                        potenzaKw INT NOT NULL,
-                                        dataImmatricolazione DATETIME,
-                                        isUsato BIT,
-                                        isKm0 BIT,
-                                        kmPercorsi INT NOT NULL,
-                                        marcaSella VARCHAR(255)
-                                      )";
-                        cmd.ExecuteNonQuery();
-                    }
-                    catch (OleDbException exc)
-                    {
-                        Console.WriteLine("\n " + exc.Message);
-                        System.Threading.Thread.Sleep(2000);
-                        return;
-                    }
-
-                    for (int i = 0; i < motoProva.Length; i++)
-                    {
-                        AddNewItem(motoProva[i], "marcaSella", "Moto");
-                    }
-
-                    Console.WriteLine(" Moto table created!!");
-                    System.Threading.Thread.Sleep(1500);
-                }
+                len++;
+                s = sr.ReadLine();
+                datiProva[len] = ""+s+"";
             }
+            sr.Close();
         }
 
         private static void menu()
@@ -363,13 +360,13 @@ namespace ConsoleApp_Project
             Console.Clear();
             Console.WriteLine("*** CAR SHOP - DB MANAGEMENT ***\n");
             Console.WriteLine(" Menu:");
-            Console.WriteLine(" 1 - CREATE TABLE: Veicoli");
+            Console.WriteLine(" 1 - CREATE TABLE");
             Console.WriteLine(" 2 - ADD NEW ITEM");
             Console.WriteLine(" 3 - MODIFY ITEM");
             Console.WriteLine(" 4 - DELETE ITEM");
-            Console.WriteLine(" 5 - SHOW LIST: Veicoli");
-            Console.WriteLine(" 6 - EXPORT DB IN A .JSON FILE");
-            Console.WriteLine(" 7 - EXPORT DB IN A .XML FILE");
+            Console.WriteLine(" 5 - SHOW LIST");
+            Console.WriteLine(" 6 - COUNT ELEMENTS");
+            Console.WriteLine(" 7 - DROP TABLE");
             Console.WriteLine(" 8 - EXPORT DB IN A .HTML FILE");
             Console.WriteLine("\n X - FINE LAVORO\n\n");
         }

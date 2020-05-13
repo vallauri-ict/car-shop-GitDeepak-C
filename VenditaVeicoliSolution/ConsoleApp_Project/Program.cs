@@ -33,7 +33,8 @@ namespace ConsoleApp_Project
                         break;
                     case '2':
                         #region inizializzazione campi
-                        string marca = Interaction.InputBox("Inserisci la marca del veicolo"),
+                        string targa = Interaction.InputBox("Inserisci la targa del veicolo"),
+                               marca = Interaction.InputBox("Inserisci la marca del veicolo"),
                                modello = Interaction.InputBox("Inserisci il modello del veicolo"),
                                colore = Interaction.InputBox("Inserisci il colore del veicolo"),
                                cilindrata = Interaction.InputBox("Inserisci la cilindrata del veicolo"),
@@ -54,7 +55,7 @@ namespace ConsoleApp_Project
                             isKm0 = "False";
                         }
                         #endregion
-                        string parameters = marca + "|" + modello + "|" + colore + "|" + cilindrata + "|" + potenzaKw + "|" + dataImmatricolazione + "|" + isUsato + "|" + isKm0 + "|" + kmPercorsi + "|" + str;
+                        string parameters = targa + "|" + marca + "|" + modello + "|" + colore + "|" + cilindrata + "|" + potenzaKw + "|" + dataImmatricolazione + "|" + isUsato + "|" + isKm0 + "|" + kmPercorsi + "|" + str;
 
                         AddNewItem(parameters);
                         Console.WriteLine("\n Item added to Auto!!");
@@ -62,18 +63,18 @@ namespace ConsoleApp_Project
 
                         break;
                     case '3':
-                        string id = Interaction.InputBox("Inserisci l'id del elemento da modificare");
+                        targa = Interaction.InputBox("Inserisci la targa del elemento da modificare");
                         marca = Interaction.InputBox("Inserisci la marca del veicolo da modificare");
                         str = Interaction.InputBox("Inserisci il campo che vuoi modificare");
                         string newVal = Interaction.InputBox("Inserisci il nuovo valore del campo");
 
-                        modifyItem(id, marca, str, newVal);
+                        modifyItem(targa, marca, str, newVal);
 
                         break;
                     case '4':
-                        id = Interaction.InputBox("Inserisci l'id del elemento da eliminare");
+                        targa = Interaction.InputBox("Inserisci la targa del elemento da eliminare");
                         
-                        deleteItem(id);
+                        deleteItem(targa);
 
                         break;
                     case '5':
@@ -133,7 +134,7 @@ namespace ConsoleApp_Project
             }
         }
 
-        private static void deleteItem(string id)
+        private static void deleteItem(string targa)
         {
             if (connStr != null)
             {
@@ -147,7 +148,7 @@ namespace ConsoleApp_Project
 
                     try
                     {
-                        cmd.CommandText = "DELETE FROM Veicoli WHERE id = " + id + "";
+                        cmd.CommandText = "DELETE FROM Veicoli WHERE targa = '" + targa.ToUpper() + "'";
 
                         cmd.ExecuteNonQuery();
                     }
@@ -164,7 +165,7 @@ namespace ConsoleApp_Project
             }
         }
 
-        private static void modifyItem(string id, string marca, string str, string newVal)
+        private static void modifyItem(string targa, string marca, string str, string newVal)
         {
             if (connStr != null)
             {
@@ -179,7 +180,7 @@ namespace ConsoleApp_Project
                     try
                     {
                         string query = "UPDATE Veicoli " +
-                                   "SET " + str + " = @newVal WHERE id = " + id + " and marca = '" + marca + "'";
+                                   "SET " + str + " = @newVal WHERE targa = '" + targa.ToUpper() + "' and marca = '" + marca + "'";
 
                         cmd.Parameters.AddWithValue("@newVal", newVal);
 
@@ -221,14 +222,14 @@ namespace ConsoleApp_Project
                         {
                             if (int.TryParse(item.ItemArray[10].ToString(), out _))
                             {
-                                Auto a = new Auto(item.ItemArray[1].ToString(), item.ItemArray[2].ToString(), item.ItemArray[3].ToString(), Convert.ToInt32(item.ItemArray[4]), Convert.ToDouble(item.ItemArray[5]),
+                                Auto a = new Auto(item.ItemArray[0].ToString(), item.ItemArray[1].ToString(), item.ItemArray[2].ToString(), item.ItemArray[3].ToString(), Convert.ToInt32(item.ItemArray[4]), Convert.ToDouble(item.ItemArray[5]),
                                                  Convert.ToDateTime(item.ItemArray[6]), Convert.ToBoolean(item.ItemArray[7]), Convert.ToBoolean(item.ItemArray[8]), Convert.ToInt32(item.ItemArray[9]),
                                                  Convert.ToInt32(item.ItemArray[10]));
                                 bindingListVeicoli.Add(a);
                             }
                             else
                             {
-                                Moto m = new Moto(item.ItemArray[1].ToString(), item.ItemArray[2].ToString(), item.ItemArray[3].ToString(), Convert.ToInt32(item.ItemArray[4]), Convert.ToDouble(item.ItemArray[5]),
+                                Moto m = new Moto(item.ItemArray[0].ToString(), item.ItemArray[1].ToString(), item.ItemArray[2].ToString(), item.ItemArray[3].ToString(), Convert.ToInt32(item.ItemArray[4]), Convert.ToDouble(item.ItemArray[5]),
                                                  Convert.ToDateTime(item.ItemArray[6]), Convert.ToBoolean(item.ItemArray[7]), Convert.ToBoolean(item.ItemArray[8]), Convert.ToInt32(item.ItemArray[9]),
                                                  item.ItemArray[10].ToString());
                                 bindingListVeicoli.Add(m);
@@ -250,7 +251,7 @@ namespace ConsoleApp_Project
             Console.WriteLine("\n");
             for (int i = 0; i < bindingListVeicoli.Count; i++)
             {
-                Console.WriteLine(" *" + bindingListVeicoli[i].Marca + " | " + bindingListVeicoli[i].Modello + " | " + bindingListVeicoli[i].Colore + "*");
+                Console.WriteLine(" *" + bindingListVeicoli[i].Targa + " | " + bindingListVeicoli[i].Marca + " | " + bindingListVeicoli[i].Modello + " | " + bindingListVeicoli[i].Colore + "*");
             }
             Console.ReadKey();
         }
@@ -267,24 +268,34 @@ namespace ConsoleApp_Project
                     OleDbCommand cmd = new OleDbCommand();
                     cmd.Connection = con;
 
-                    string query = "INSERT INTO Veicoli(marca, modello, colore, cilindrata, potenzaKw, dataImmatricolazione, isUsato, isKm0, kmPercorsi, cmpSpec) " +
-                                   "VALUES(@marca, @modello, @colore, @cilindrata, @potenzaKw, @dataImmatricolazione, @isUsato, @isKm0, @kmPercorsi, @cmpSpec)";
-                    cmd.CommandText = query;
+                    try
+                    {
+                        string query = "INSERT INTO Veicoli(targa, marca, modello, colore, cilindrata, potenzaKw, dataImmatricolazione, isUsato, isKm0, kmPercorsi, cmpSpec) " +
+                                       "VALUES(@targa, @marca, @modello, @colore, @cilindrata, @potenzaKw, @dataImmatricolazione, @isUsato, @isKm0, @kmPercorsi, @cmpSpec)";
+                        cmd.CommandText = query;
 
-                    string[] vet = dati.Split('|');
-                    cmd.Parameters.Add("@marca", OleDbType.VarChar, 255).Value = vet[0];
-                    cmd.Parameters.Add("@modello", OleDbType.VarChar, 255).Value = vet[1];
-                    cmd.Parameters.Add("@colore", OleDbType.VarChar, 16).Value = vet[2];
-                    cmd.Parameters.Add("@cilindrata", OleDbType.Integer).Value = vet[3];
-                    cmd.Parameters.Add("@potenzaKw", OleDbType.Integer).Value = vet[4];
-                    cmd.Parameters.Add("@dataImmatricolazione", OleDbType.Date).Value = vet[5];
-                    cmd.Parameters.Add("@isUsato", OleDbType.Boolean).Value = vet[6];
-                    cmd.Parameters.Add("@isKm0", OleDbType.Boolean).Value = vet[7];
-                    cmd.Parameters.Add("@kmPercorsi", OleDbType.Integer).Value = vet[8];
-                    cmd.Parameters.Add("@cmpSpec", OleDbType.VarChar, 255).Value = vet[9];
-                    cmd.Prepare();
+                        string[] vet = dati.Split('|');
+                        cmd.Parameters.Add("@targa", OleDbType.VarChar, 255).Value = vet[0].ToUpper();
+                        cmd.Parameters.Add("@marca", OleDbType.VarChar, 255).Value = vet[1];
+                        cmd.Parameters.Add("@modello", OleDbType.VarChar, 255).Value = vet[2];
+                        cmd.Parameters.Add("@colore", OleDbType.VarChar, 16).Value = vet[3];
+                        cmd.Parameters.Add("@cilindrata", OleDbType.Integer).Value = vet[4];
+                        cmd.Parameters.Add("@potenzaKw", OleDbType.Integer).Value = vet[5];
+                        cmd.Parameters.Add("@dataImmatricolazione", OleDbType.Date).Value = vet[6];
+                        cmd.Parameters.Add("@isUsato", OleDbType.Boolean).Value = vet[7];
+                        cmd.Parameters.Add("@isKm0", OleDbType.Boolean).Value = vet[8];
+                        cmd.Parameters.Add("@kmPercorsi", OleDbType.Integer).Value = vet[9];
+                        cmd.Parameters.Add("@cmpSpec", OleDbType.VarChar, 255).Value = vet[10];
+                        cmd.Prepare();
 
-                    cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception exc)
+                    {
+                        Console.WriteLine("\n " + exc.Message);
+                        System.Threading.Thread.Sleep(2000);
+                        return;
+                    }
                 }
             }
         }
@@ -308,7 +319,7 @@ namespace ConsoleApp_Project
                     {
 
                         cmd.CommandText = @"CREATE TABLE Veicoli(
-                                        id int identity(1, 1) UNIQUE NOT NULL PRIMARY KEY,
+                                        targa VARCHAR(255) UNIQUE NOT NULL PRIMARY KEY,
                                         marca VARCHAR(255) NOT NULL,
                                         modello VARCHAR(255) NOT NULL,
                                         colore VARCHAR(16) NOT NULL,

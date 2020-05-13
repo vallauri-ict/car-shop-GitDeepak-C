@@ -28,11 +28,11 @@ namespace WindowsFormsAppProject
         {
             Moto m = new Moto();
             bindingListVeicoli.Add(m);
-            m = new Moto("Aprilia", "125", "Rosso", 600, 70, DateTime.Now, false, false, 0, "Harley Davison");
+            m = new Moto("FG8765", "Aprilia", "125", "Rosso", 600, 70, DateTime.Now, false, false, 0, "Harley Davison");
             bindingListVeicoli.Add(m);
 
             Auto a = new Auto();
-            a = new Auto("Audi", "A1", "Blu", 1400, 75, DateTime.Now, false, false, 0, 7);
+            a = new Auto("BN377CN", "Audi", "A1", "Blu", 1400, 75, DateTime.Now, false, false, 0, 7);
             bindingListVeicoli.Add(a);
         }
 

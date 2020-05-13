@@ -10,6 +10,7 @@ namespace VenditaVeicoliDllProject
     {
 
         #region fields
+        private string targa;
         private string marca;
         private string modello;
         private string colore;
@@ -23,8 +24,9 @@ namespace VenditaVeicoliDllProject
 
         public Veicolo() { }
 
-        public Veicolo(string marca, string modello, string colore, int cilindrata, double potenzaKw, DateTime immatricolazione, bool isUsato, bool isKmZero, int kmPercorsi)
+        public Veicolo(string targa, string marca, string modello, string colore, int cilindrata, double potenzaKw, DateTime immatricolazione, bool isUsato, bool isKmZero, int kmPercorsi)
         {
+            this.Targa = targa;
             this.Marca = marca;
             this.Modello = modello;
             this.Colore = colore;
@@ -36,6 +38,7 @@ namespace VenditaVeicoliDllProject
             this.KmPercorsi = kmPercorsi;
         }
 
+        public string Targa { get => targa.ToUpper(); set => targa = value; }
         public string Marca { get => marca.ToUpper(); set => marca = value; }
         public string Modello { get => modello; set => modello = value; }
         public string Colore { get => colore; set => colore = value; }

@@ -9,6 +9,7 @@ namespace VenditaVeicoliDllProject
         private string marcaSella;
 
         public Moto() : base(
+            "YT9876",
             "Ducati",
             "Squalo",
             "Nero",
@@ -22,10 +23,11 @@ namespace VenditaVeicoliDllProject
             this.MarcaSella = "Cavallino";
         }
 
-        public Moto(string marca, string modello, string colore,
+        public Moto(string targa, string marca, string modello, string colore,
             int cilindrata, double potenzaKw, DateTime immatricolazione,
             bool isUsato, bool isKmZero, int kmPercorsi, string marcaSella) 
             : base(
+                targa,
                 marca,
                 modello,
                 colore,

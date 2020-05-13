@@ -2,10 +2,14 @@
 #### Autore: Chopra Deepak
 
 ## Descrizione
->Qui è caricata la soluzione realizzata sulla vendita dei veicoli che comprende più progetti al suo interno 
+>La soluzione contiene progetti che costruiscono insieme un Salone di vendita dei veicoli. I vari progetti permettono di effettuare operazioni diverse:
+* ConsoleProject --> si occupa principalmente di operazioni sul database dei veicoli
+* WindowsForm --> presenta all'utente una GUI per un uso più semplice, e permette di fare                   operazioni sui dati
+* DllProject --> contiene librerie contenenti le principali operazioni
 
 ## Software neccesari:
 * Visual Studio
+* Microsoft Access (per i DB)
 * Pacchetti dei vari applicativi, quindi quello di word ad esempio
 
 ## Team work

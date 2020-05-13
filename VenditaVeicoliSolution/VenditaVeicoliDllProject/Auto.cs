@@ -10,6 +10,7 @@ namespace VenditaVeicoliDllProject
         private int numAirbag;
 
         public Auto() : base(
+            "DT290FG",
             "Mercedes",
             "GLX",
             "Nero",
@@ -23,10 +24,11 @@ namespace VenditaVeicoliDllProject
             NumAirbag = 6;
         }
 
-        public Auto(string marca, string modello, string colore,
+        public Auto(string targa, string marca, string modello, string colore,
             int cilindrata, double potenzaKw, DateTime immatricolazione,
             bool isUsato, bool isKmZero, int kmPercorsi, int numAirbag) 
             : base(
+                targa,
                 marca, 
                 modello, 
                 colore,

@@ -38,7 +38,7 @@ namespace VenditaVeicoliDllProject
             this.KmPercorsi = kmPercorsi;
         }
 
-        public string Targa { get => targa.ToUpper(); set => targa = value; }
+        public string Targa { get => targa.ToUpper(); set => targa = value.ToUpper(); }
         public string Marca { get => marca.ToUpper(); set => marca = value; }
         public string Modello { get => modello; set => modello = value; }
         public string Colore { get => colore; set => colore = value; }

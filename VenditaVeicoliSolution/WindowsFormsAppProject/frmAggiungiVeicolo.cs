@@ -35,15 +35,19 @@ namespace WindowsFormsAppProject
             {
                 if (veicolo == "Auto")
                 {
-                    Auto a = new Auto(txtMarca.Text, txtModello.Text, color, Convert.ToInt32(nupCilindrata.Value), Convert.ToDouble(nupPotenza.Value), dtpDataImmatricolazione.Value, rdbNo.Checked ? false : true, cmbKm0.SelectedIndex == 0 ? true : false, Convert.ToInt32(nupKm.Value), Convert.ToInt32(nupNAirbag.Value));
+                    Auto a = new Auto(txtTarga.Text, txtMarca.Text, txtModello.Text, color, Convert.ToInt32(nupCilindrata.Value), Convert.ToDouble(nupPotenza.Value), dtpDataImmatricolazione.Value, rdbNo.Checked ? false : true, cmbKm0.SelectedIndex == 0 ? true : false, Convert.ToInt32(nupKm.Value), Convert.ToInt32(nupNAirbag.Value));
                     lista.Add(a);
+                    string str = txtTarga.Text + "|" + txtMarca.Text + "|" + txtModello.Text + "|" + color + "|" + Convert.ToInt32(nupCilindrata.Value) + "|" + Convert.ToDouble(nupPotenza.Value) + "|" + dtpDataImmatricolazione.Value.ToShortDateString() + "|" + (rdbNo.Checked ? false : true) + "|" + (cmbKm0.SelectedIndex == 0 ? true : false) + "|" + Convert.ToInt32(nupKm.Value) + "|" + Convert.ToInt32(nupNAirbag.Value);
+                    DbActions.AddNewItem(str);
                     pulisciCampi();
                     aggioraCampi(cmbVeicolo.Text);
                 }
                 else
                 {
-                    Moto m = new Moto(txtMarca.Text, txtModello.Text, color, Convert.ToInt32(nupCilindrata.Value), Convert.ToDouble(nupPotenza.Value), dtpDataImmatricolazione.Value, rdbNo.Checked ? false : true, cmbKm0.SelectedIndex == 0 ? true : false, Convert.ToInt32(nupKm.Value), txtMarcaSella.Text);
+                    Moto m = new Moto(txtTarga.Text, txtMarca.Text, txtModello.Text, color, Convert.ToInt32(nupCilindrata.Value), Convert.ToDouble(nupPotenza.Value), dtpDataImmatricolazione.Value, rdbNo.Checked ? false : true, cmbKm0.SelectedIndex == 0 ? true : false, Convert.ToInt32(nupKm.Value), txtMarcaSella.Text);
                     lista.Add(m);
+                    string str = txtTarga.Text + "|" + txtMarca.Text + "|" + txtModello.Text + "|" + color + "|" + Convert.ToInt32(nupCilindrata.Value) + "|" + Convert.ToDouble(nupPotenza.Value) + "|" + dtpDataImmatricolazione.Value.ToShortDateString() + "|" + (rdbNo.Checked ? false : true) + "|" + (cmbKm0.SelectedIndex == 0 ? true : false) + "|" + Convert.ToInt32(nupKm.Value) + "|" + txtMarcaSella.Text;
+                    DbActions.AddNewItem(str);
                     pulisciCampi();
                     aggioraCampi(cmbVeicolo.Text);
                 }
@@ -72,6 +76,7 @@ namespace WindowsFormsAppProject
 
         private void pulisciCampi()
         {
+            txtTarga.Text = "";
             txtMarca.Text = "";
             txtModello.Text = "";
             nupCilindrata.Value = 0;
@@ -101,6 +106,20 @@ namespace WindowsFormsAppProject
                 cmbKm0.Enabled = false;
             else
                 cmbKm0.Enabled = true;
+        }
+
+        private void cmbKm0_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbKm0.Text == "Si")
+            {
+                rdbNo.Enabled = false;
+                rdbSi.Enabled = false;
+            }
+            else
+            {
+                rdbNo.Enabled = true;
+                rdbSi.Enabled = true;
+            }
         }
 
         private void aggioraCampi(string type)

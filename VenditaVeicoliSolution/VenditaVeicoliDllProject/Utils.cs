@@ -50,13 +50,17 @@ namespace VenditaVeicoliDllProject
 
         public static SerializableBindingList<Veicolo> deserializeObject(IEnumerable<object> objectlist)
         {
-            SerializableBindingList<Veicolo> list = new SerializableBindingList<Veicolo>();
+            SerializableBindingList<Veicolo> lst = new SerializableBindingList<Veicolo>();
             foreach (var item in objectlist)
             {
-                //list.Add(item);
+                string str = item.ToString();
+                if (str.Contains("NumAirbag"))
+                {
+                    //Auto a = new Auto(item["Targa"].ToString(), item["NumAirbag"].ToString(), )
+                }
             }
 
-            return list;
+            return lst;
         }
 
         public static void SerializeToXml<T>(SerializableBindingList<T> objectlist, string pathName)

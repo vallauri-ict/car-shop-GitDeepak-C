@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VenditaVeicoliDllProject\VenditaVeicoliDllProject.csproj">
-      <Project>{9E000298-3817-4220-9FCB-3DD3034E45BA}</Project>
+      <Project>{08D53910-C670-4ED6-9001-146BB027D8BA}</Project>
       <Name>VenditaVeicoliDllProject</Name>
     </ProjectReference>
   </ItemGroup>

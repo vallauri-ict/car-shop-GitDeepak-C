@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfVeicolo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Veicolo xsi:type="Auto">
+    <Targa>FA803ZZ</Targa>
+    <Marca>BMW</Marca>
+    <Modello>M4</Modello>
+    <Colore>Giallo</Colore>
+    <Cilindrata>3000</Cilindrata>
+    <PotenzaKw>370</PotenzaKw>
+    <Immatricolazione>2002-02-12T00:00:00</Immatricolazione>
+    <IsUsato>true</IsUsato>
+    <IsKmZero>false</IsKmZero>
+    <KmPercorsi>70000</KmPercorsi>
+    <NumAirbag>7</NumAirbag>
+  </Veicolo>
+  <Veicolo xsi:type="Auto">
+    <Targa>GA76523</Targa>
+    <Marca>AUDI</Marca>
+    <Modello>A1</Modello>
+    <Colore>Blu</Colore>
+    <Cilindrata>3000</Cilindrata>
+    <PotenzaKw>120</PotenzaKw>
+    <Immatricolazione>2012-02-12T00:00:00</Immatricolazione>
+    <IsUsato>true</IsUsato>
+    <IsKmZero>false</IsKmZero>
+    <KmPercorsi>70000</KmPercorsi>
+    <NumAirbag>8</NumAirbag>
+  </Veicolo>
+  <Veicolo xsi:type="Auto">
+    <Targa>AA345AS</Targa>
+    <Marca>FORD</Marca>
+    <Modello>Focus</Modello>
+    <Colore>Grigio Metallico</Colore>
+    <Cilindrata>1500</Cilindrata>
+    <PotenzaKw>70</PotenzaKw>
+    <Immatricolazione>2003-02-12T00:00:00</Immatricolazione>
+    <IsUsato>true</IsUsato>
+    <IsKmZero>false</IsKmZero>
+    <KmPercorsi>70000</KmPercorsi>
+    <NumAirbag>5</NumAirbag>
+  </Veicolo>
+  <Veicolo xsi:type="Auto">
+    <Targa>FP876DT</Targa>
+    <Marca>OPEL</Marca>
+    <Modello>Corsa</Modello>
+    <Colore>Bianca</Colore>
+    <Cilindrata>1200</Cilindrata>
+    <PotenzaKw>75</PotenzaKw>
+    <Immatricolazione>2002-02-12T00:00:00</Immatricolazione>
+    <IsUsato>true</IsUsato>
+    <IsKmZero>false</IsKmZero>
+    <KmPercorsi>120000</KmPercorsi>
+    <NumAirbag>3</NumAirbag>
+  </Veicolo>
+  <Veicolo xsi:type="Auto">
+    <Targa>FG888FA</Targa>
+    <Marca>HYUNDAI</Marca>
+    <Modello>Tucson</Modello>
+    <Colore>Nera</Colore>
+    <Cilindrata>1800</Cilindrata>
+    <PotenzaKw>110</PotenzaKw>
+    <Immatricolazione>2016-02-12T00:00:00</Immatricolazione>
+    <IsUsato>true</IsUsato>
+    <IsKmZero>false</IsKmZero>
+    <KmPercorsi>80000</KmPercorsi>
+    <NumAirbag>4</NumAirbag>
+  </Veicolo>
+  <Veicolo xsi:type="Auto">
+    <Targa>FA234ZF</Targa>
+    <Marca>VOLVO</Marca>
+    <Modello>XC90</Modello>
+    <Colore>Azzura</Colore>
+    <Cilindrata>2000</Cilindrata>
+    <PotenzaKw>150</PotenzaKw>
+    <Immatricolazione>2019-02-12T00:00:00</Immatricolazione>
+    <IsUsato>false</IsUsato>
+    <IsKmZero>true</IsKmZero>
+    <KmPercorsi>0</KmPercorsi>
+    <NumAirbag>10</NumAirbag>
+  </Veicolo>
+  <Veicolo xsi:type="Moto">
+    <Targa>AA1234</Targa>
+    <Marca>HARLEY DAVINSON</Marca>
+    <Modello>Iron 883</Modello>
+    <Colore>Grigio Scuro</Colore>
+    <Cilindrata>800</Cilindrata>
+    <PotenzaKw>20</PotenzaKw>
+    <Immatricolazione>2020-02-12T00:00:00</Immatricolazione>
+    <IsUsato>false</IsUsato>
+    <IsKmZero>true</IsKmZero>
+    <KmPercorsi>0</KmPercorsi>
+    <MarcaSella>Harley Dainson</MarcaSella>
+  </Veicolo>
+  <Veicolo xsi:type="Moto">
+    <Targa>GA3421</Targa>
+    <Marca>BMW</Marca>
+    <Modello>F 900 R</Modello>
+    <Colore>Rosso</Colore>
+    <Cilindrata>900</Cilindrata>
+    <PotenzaKw>25</PotenzaKw>
+    <Immatricolazione>2019-08-12T00:00:00</Immatricolazione>
+    <IsUsato>true</IsUsato>
+    <IsKmZero>false</IsKmZero>
+    <KmPercorsi>1000</KmPercorsi>
+    <MarcaSella>Bmw</MarcaSella>
+  </Veicolo>
+  <Veicolo xsi:type="Moto">
+    <Targa>FG1234</Targa>
+    <Marca>KAWASAKI</Marca>
+    <Modello>Ninja 250 R</Modello>
+    <Colore>Verde</Colore>
+    <Cilindrata>250</Cilindrata>
+    <PotenzaKw>22</PotenzaKw>
+    <Immatricolazione>2003-02-12T00:00:00</Immatricolazione>
+    <IsUsato>true</IsUsato>
+    <IsKmZero>false</IsKmZero>
+    <KmPercorsi>70000</KmPercorsi>
+    <MarcaSella>Kawasaki</MarcaSella>
+  </Veicolo>
+  <Veicolo xsi:type="Moto">
+    <Targa>BY9876</Targa>
+    <Marca>YAMAHA</Marca>
+    <Modello>YZF R125</Modello>
+    <Colore>Blu</Colore>
+    <Cilindrata>125</Cilindrata>
+    <PotenzaKw>11</PotenzaKw>
+    <Immatricolazione>2018-02-12T00:00:00</Immatricolazione>
+    <IsUsato>true</IsUsato>
+    <IsKmZero>false</IsKmZero>
+    <KmPercorsi>120</KmPercorsi>
+    <MarcaSella>Yamaha</MarcaSella>
+  </Veicolo>
+  <Veicolo xsi:type="Moto">
+    <Targa>BI6666</Targa>
+    <Marca>APRILIA</Marca>
+    <Modello>RS 125</Modello>
+    <Colore>Bianca</Colore>
+    <Cilindrata>125</Cilindrata>
+    <PotenzaKw>12</PotenzaKw>
+    <Immatricolazione>2017-02-12T00:00:00</Immatricolazione>
+    <IsUsato>true</IsUsato>
+    <IsKmZero>false</IsKmZero>
+    <KmPercorsi>8000</KmPercorsi>
+    <MarcaSella>Aprilia</MarcaSella>
+  </Veicolo>
+  <Veicolo xsi:type="Moto">
+    <Targa>DE4532</Targa>
+    <Marca>HONDA</Marca>
+    <Modello>CBR</Modello>
+    <Colore>Arancione</Colore>
+    <Cilindrata>125</Cilindrata>
+    <PotenzaKw>11</PotenzaKw>
+    <Immatricolazione>2019-02-12T00:00:00</Immatricolazione>
+    <IsUsato>false</IsUsato>
+    <IsKmZero>true</IsKmZero>
+    <KmPercorsi>0</KmPercorsi>
+    <MarcaSella>Honda</MarcaSella>
+  </Veicolo>
+  <Veicolo xsi:type="Auto">
+    <Targa>FA830ZZ</Targa>
+    <Marca>FORD</Marca>
+    <Modello>Fiesta</Modello>
+    <Colore>White</Colore>
+    <Cilindrata>1200</Cilindrata>
+    <PotenzaKw>55</PotenzaKw>
+    <Immatricolazione>2020-05-14T15:51:06</Immatricolazione>
+    <IsUsato>true</IsUsato>
+    <IsKmZero>false</IsKmZero>
+    <KmPercorsi>26000</KmPercorsi>
+    <NumAirbag>7</NumAirbag>
+  </Veicolo>
+</ArrayOfVeicolo>

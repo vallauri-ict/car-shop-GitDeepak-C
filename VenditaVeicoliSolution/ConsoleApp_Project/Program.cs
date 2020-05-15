@@ -68,9 +68,8 @@ namespace ConsoleApp_Project
 
                         break;
                     case '5':
-                        DbActions.bindingListVeicoli.Clear();
                         DbActions.CreateListCars();
-                        DbActions.showList();
+                        showList();
                         break;
                     case '6':
                         if (DbActions.bindingListVeicoli.Count == 0)
@@ -92,6 +91,16 @@ namespace ConsoleApp_Project
                         break;
                 }
             } while (scelta != 'X' && scelta != 'x');
+        }
+
+        private static void showList()
+        {
+            Console.WriteLine("\n");
+            for (int i = 0; i < DbActions.bindingListVeicoli.Count; i++)
+            {
+                Console.WriteLine(" *" + DbActions.bindingListVeicoli[i].Targa + " | " + DbActions.bindingListVeicoli[i].Marca + " | " + DbActions.bindingListVeicoli[i].Modello + " | " + DbActions.bindingListVeicoli[i].Colore + "*");
+            }
+            Console.ReadKey();
         }
 
         private static void menu()

@@ -51,7 +51,7 @@ namespace VenditaVeicoliDllProject
 
         public override string ToString()
         {
-            string retVal = $"{this.Marca} {this.Modello} ({this.Immatricolazione.Year})";
+            string retVal = $"{this.Targa} {this.Marca} {this.Modello} ({this.Immatricolazione.Year})";
             return retVal;
         }
 

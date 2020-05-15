@@ -60,7 +60,7 @@
     <Compile Include="DbActions.cs" />
     <Compile Include="Moto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Storico.cs" />
+    <Compile Include="WordUtilities.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="Veicolo.cs" />
   </ItemGroup>

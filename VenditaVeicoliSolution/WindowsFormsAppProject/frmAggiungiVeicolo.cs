@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows.Forms;
 
 using VenditaVeicoliDllProject;
@@ -33,23 +32,29 @@ namespace WindowsFormsAppProject
             errorProvider1.Clear();
             if (veicolo != null)
             {
-                if (veicolo == "Auto")
+                try
                 {
-                    Auto a = new Auto(txtTarga.Text, txtMarca.Text, txtModello.Text, color, Convert.ToInt32(nupCilindrata.Value), Convert.ToDouble(nupPotenza.Value), dtpDataImmatricolazione.Value, rdbNo.Checked ? false : true, cmbKm0.SelectedIndex == 0 ? true : false, Convert.ToInt32(nupKm.Value), Convert.ToInt32(nupNAirbag.Value));
-                    lista.Add(a);
-                    string str = txtTarga.Text + "|" + txtMarca.Text + "|" + txtModello.Text + "|" + color + "|" + Convert.ToInt32(nupCilindrata.Value) + "|" + Convert.ToDouble(nupPotenza.Value) + "|" + dtpDataImmatricolazione.Value.ToShortDateString() + "|" + (rdbNo.Checked ? false : true) + "|" + (cmbKm0.SelectedIndex == 0 ? true : false) + "|" + Convert.ToInt32(nupKm.Value) + "|" + Convert.ToInt32(nupNAirbag.Value);
-                    DbActions.AddNewItem(str);
-                    pulisciCampi();
-                    aggioraCampi(cmbVeicolo.Text);
-                }
-                else
+                    if (veicolo == "Auto")
+                    {
+                        Auto a = new Auto(txtTarga.Text, txtMarca.Text, txtModello.Text, color, Convert.ToInt32(nupCilindrata.Value), Convert.ToDouble(nupPotenza.Value), dtpDataImmatricolazione.Value, rdbNo.Checked ? false : true, cmbKm0.SelectedIndex == 0 ? true : false, Convert.ToInt32(nupKm.Value), Convert.ToInt32(nupNAirbag.Value));
+                        lista.Add(a);
+                        string str = txtTarga.Text + "|" + txtMarca.Text + "|" + txtModello.Text + "|" + color + "|" + Convert.ToInt32(nupCilindrata.Value) + "|" + Convert.ToDouble(nupPotenza.Value) + "|" + dtpDataImmatricolazione.Value.ToShortDateString() + "|" + (rdbNo.Checked ? false : true) + "|" + (cmbKm0.SelectedIndex == 0 ? true : false) + "|" + Convert.ToInt32(nupKm.Value) + "|" + Convert.ToInt32(nupNAirbag.Value);
+                        DbActions.AddNewItem(str);
+                        pulisciCampi();
+                        aggioraCampi(cmbVeicolo.Text);
+                    }
+                    else
+                    {
+                        Moto m = new Moto(txtTarga.Text, txtMarca.Text, txtModello.Text, color, Convert.ToInt32(nupCilindrata.Value), Convert.ToDouble(nupPotenza.Value), dtpDataImmatricolazione.Value, rdbNo.Checked ? false : true, cmbKm0.SelectedIndex == 0 ? true : false, Convert.ToInt32(nupKm.Value), txtMarcaSella.Text);
+                        lista.Add(m);
+                        string str = txtTarga.Text + "|" + txtMarca.Text + "|" + txtModello.Text + "|" + color + "|" + Convert.ToInt32(nupCilindrata.Value) + "|" + Convert.ToDouble(nupPotenza.Value) + "|" + dtpDataImmatricolazione.Value.ToShortDateString() + "|" + (rdbNo.Checked ? false : true) + "|" + (cmbKm0.SelectedIndex == 0 ? true : false) + "|" + Convert.ToInt32(nupKm.Value) + "|" + txtMarcaSella.Text;
+                        DbActions.AddNewItem(str);
+                        pulisciCampi();
+                        aggioraCampi(cmbVeicolo.Text);
+                    }
+                }catch(Exception exc)
                 {
-                    Moto m = new Moto(txtTarga.Text, txtMarca.Text, txtModello.Text, color, Convert.ToInt32(nupCilindrata.Value), Convert.ToDouble(nupPotenza.Value), dtpDataImmatricolazione.Value, rdbNo.Checked ? false : true, cmbKm0.SelectedIndex == 0 ? true : false, Convert.ToInt32(nupKm.Value), txtMarcaSella.Text);
-                    lista.Add(m);
-                    string str = txtTarga.Text + "|" + txtMarca.Text + "|" + txtModello.Text + "|" + color + "|" + Convert.ToInt32(nupCilindrata.Value) + "|" + Convert.ToDouble(nupPotenza.Value) + "|" + dtpDataImmatricolazione.Value.ToShortDateString() + "|" + (rdbNo.Checked ? false : true) + "|" + (cmbKm0.SelectedIndex == 0 ? true : false) + "|" + Convert.ToInt32(nupKm.Value) + "|" + txtMarcaSella.Text;
-                    DbActions.AddNewItem(str);
-                    pulisciCampi();
-                    aggioraCampi(cmbVeicolo.Text);
+                    MessageBox.Show(exc.Message);
                 }
             }
             else
@@ -119,6 +124,27 @@ namespace WindowsFormsAppProject
             {
                 rdbNo.Enabled = true;
                 rdbSi.Enabled = true;
+            }
+        }
+
+        private void btnChiudi_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void nupKm_ValueChanged(object sender, EventArgs e)
+        {
+            if(Convert.ToInt32(nupKm.Value) > 0)
+            {
+                rdbNo.Checked = true;
+                rdbSi.Enabled = false;
+                cmbKm0.Text = "Si";
+            }
+            else
+            {
+                rdbNo.Checked = false;
+                rdbSi.Enabled = true;
+                cmbKm0.SelectedIndex = -1;
             }
         }
 

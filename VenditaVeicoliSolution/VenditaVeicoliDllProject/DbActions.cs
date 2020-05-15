@@ -2,6 +2,7 @@
 using System.Data.OleDb;
 using System.Data;
 using System.IO;
+using DocumentFormat.OpenXml.Drawing;
 
 namespace VenditaVeicoliDllProject
 {
@@ -62,6 +63,33 @@ namespace VenditaVeicoliDllProject
                     System.Threading.Thread.Sleep(1000);
                 }
             }
+        }
+
+        public static Veicolo searchElement(string targa)
+        {
+            Veicolo v = null;
+            if (connStr != null)
+            {
+                OleDbConnection con = new OleDbConnection(connStr);
+                using (con)
+                {
+                    con.Open();
+                    try
+                    {
+                        foreach(Veicolo item in bindingListVeicoli)
+                        {
+                            if (item.Targa == targa)
+                                v = item;
+                        }
+                    }
+                    catch (OleDbException exc)
+                    {
+                        Console.WriteLine("\n " + exc.Message);
+                        System.Threading.Thread.Sleep(5000);
+                    }
+                }
+            }
+            return v;
         }
 
         public static void caricaDatiProva(string[] datiProva)
@@ -125,6 +153,7 @@ namespace VenditaVeicoliDllProject
 
         public static void CreateListCars()
         {
+            bindingListVeicoli.Clear();
             if (connStr != null)
             {
                 OleDbConnection con = new OleDbConnection(connStr);
@@ -167,16 +196,6 @@ namespace VenditaVeicoliDllProject
                     }
                 }
             }
-        }
-
-        public static void showList()
-        {
-            Console.WriteLine("\n");
-            for (int i = 0; i < bindingListVeicoli.Count; i++)
-            {
-                Console.WriteLine(" *" + bindingListVeicoli[i].Targa + " | " + bindingListVeicoli[i].Marca + " | " + bindingListVeicoli[i].Modello + " | " + bindingListVeicoli[i].Colore + "*");
-            }
-            Console.ReadKey();
         }
 
         public static void dropTable()
@@ -226,6 +245,9 @@ namespace VenditaVeicoliDllProject
                         cmd.CommandText = "DELETE FROM Veicoli WHERE targa = '" + targa.ToUpper() + "'";
 
                         cmd.ExecuteNonQuery();
+
+                        bindingListVeicoli.Clear();
+                        CreateListCars();
                     }
                     catch (OleDbException exc)
                     {
@@ -261,11 +283,14 @@ namespace VenditaVeicoliDllProject
 
                         cmd.CommandText = query;
                         cmd.ExecuteNonQuery();
+
+                        bindingListVeicoli.Clear();
+                        CreateListCars();
                     }
                     catch (OleDbException exc)
                     {
                         Console.WriteLine("\n " + exc.Message);
-                        System.Threading.Thread.Sleep(5000);
+                        System.Threading.Thread.Sleep(4000);
                         return;
                     }
 

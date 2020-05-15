@@ -245,9 +245,6 @@ namespace VenditaVeicoliDllProject
                         cmd.CommandText = "DELETE FROM Veicoli WHERE targa = '" + targa.ToUpper() + "'";
 
                         cmd.ExecuteNonQuery();
-
-                        bindingListVeicoli.Clear();
-                        CreateListCars();
                     }
                     catch (OleDbException exc)
                     {
@@ -283,9 +280,6 @@ namespace VenditaVeicoliDllProject
 
                         cmd.CommandText = query;
                         cmd.ExecuteNonQuery();
-
-                        bindingListVeicoli.Clear();
-                        CreateListCars();
                     }
                     catch (OleDbException exc)
                     {

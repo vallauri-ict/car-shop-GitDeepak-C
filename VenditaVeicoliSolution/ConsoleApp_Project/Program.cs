@@ -59,13 +59,13 @@ namespace ConsoleApp_Project
                         string newVal = Interaction.InputBox("Inserisci il nuovo valore del campo");
 
                         DbActions.modifyItem(targa, marca, str, newVal);
-
+                        DbActions.CreateListCars();
                         break;
                     case '4':
                         targa = Interaction.InputBox("Inserisci la targa dell'elemento da eliminare");
 
                         DbActions.deleteItem(targa);
-
+                        DbActions.CreateListCars();
                         break;
                     case '5':
                         DbActions.CreateListCars();

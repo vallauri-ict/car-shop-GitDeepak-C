@@ -136,15 +136,17 @@ namespace WindowsFormsAppProject
         {
             if(Convert.ToInt32(nupKm.Value) > 0)
             {
-                rdbNo.Checked = true;
-                rdbSi.Enabled = false;
-                cmbKm0.Text = "Si";
+                rdbSi.Checked = true;
+                rdbSi.Enabled = true;
+                rdbNo.Enabled = false;
+                cmbKm0.SelectedIndex = 1;
             }
             else
             {
-                rdbNo.Checked = false;
-                rdbSi.Enabled = true;
-                cmbKm0.SelectedIndex = -1;
+                rdbNo.Checked = true;
+                rdbNo.Enabled = true;
+                rdbSi.Enabled = false;
+                cmbKm0.SelectedIndex = 0;
             }
         }
 

@@ -109,6 +109,7 @@ namespace WindowsFormsAppProject
                 if (isPresent(targa))
                 {
                     DbActions.deleteItem(targa);
+                    DbActions.CreateListCars();
                     timer1.Start();
                     lblEvent.Text = "Item Deleted!!";
                 }
@@ -122,7 +123,7 @@ namespace WindowsFormsAppProject
             bool trovato = false;
             foreach (Veicolo v in DbActions.bindingListVeicoli)
             {
-                if (v.Targa == targa)
+                if (v.Targa == targa.ToUpper())
                 {
                     trovato = true;
                     break;

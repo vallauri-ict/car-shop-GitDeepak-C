@@ -92,6 +92,7 @@ namespace WindowsFormsAppProject
             if (oldVal != "" && newVal != "")
             {
                 DbActions.modifyItem(v.Targa, v.Marca, oldVal, newVal);
+                DbActions.CreateListCars();
                 this.Close();
             }
             else
